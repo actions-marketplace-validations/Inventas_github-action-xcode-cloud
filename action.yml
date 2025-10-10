@@ -1,0 +1,32 @@
+name: "GitHub Action Xcode Cloud"
+description: "Trigger Xcode Cloud Workflows via GitHub Actions."
+author: "inventas"
+
+branding:
+  icon: "cpu"
+  color: "blue"
+
+inputs:
+  key_id:
+    description: "Key ID from App Store Connect."
+    required: true
+  key:
+    description: "P8 private key from App Store Connect."
+    required: true
+  issuer_id:
+    description: "Issuer ID from App Store Connect."
+    required: true
+  xcode_cloud_workflow_id:
+    description: "Workflow ID in Xcode Cloud obtained by inspecting the URL https://appstoreconnect.apple.com/teams/{team-id}/apps/{app-id}/ci/workflows/{workflow-id}."
+    required: true
+  git_branch_name:
+    description: "Name of the Git branch to trigger the workflow on."
+    required: true
+
+outputs:
+  token:
+    description: "Generated token to use App Store Connect API."
+
+runs:
+  using: "node24"
+  main: "action.js"
