@@ -16,12 +16,6 @@ function readEnvCredentials() {
   return { keyId, issuerId, key };
 }
 
-const payload = {
-  iss: issuerId,
-  aud: "appstoreconnect-v1",
-  exp: Math.floor(Date.now() / 1000) + 10 * 60,
-};
-
 /**
  * Build an App Store Connect API JWT (ES256).
  * Inputs can come from env (typical for composite actions) or be passed directly.

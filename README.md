@@ -134,6 +134,41 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Development
+
+### Building the Action
+
+This action uses [@vercel/ncc](https://github.com/vercel/ncc) to bundle the Node.js application and dependencies into a single file.
+
+#### Prerequisites
+
+- Node.js (version 24 or later)
+- npm
+
+#### Setup
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+#### Building
+
+To build the action after making changes:
+
+```bash
+npm run build
+```
+
+This creates a bundled file at `dist/index.js` which includes all dependencies.
+
+#### Important Notes
+
+- The `dist/` folder **must be committed** to the repository for GitHub Actions to work
+- Always run `npm run build` after making code changes
+- The bundled `dist/index.js` file is what GitHub Actions actually executes
+
 ## Credits
 
 This action builds upon work from [yorifuji/actions-xcode-cloud-dispatcher](https://github.com/yorifuji/actions-xcode-cloud-dispatcher) licensed under the MIT License.
