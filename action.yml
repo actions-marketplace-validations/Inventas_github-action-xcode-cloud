@@ -7,25 +7,29 @@ branding:
   color: "blue"
 
 inputs:
-  key_id:
+  keyId:
     description: "Key ID from App Store Connect."
     required: true
   key:
     description: "P8 private key from App Store Connect."
     required: true
-  issuer_id:
+  issuerId:
     description: "Issuer ID from App Store Connect."
     required: true
-  xcode_cloud_workflow_id:
+  xcodeCloudWorkflowId:
     description: "Workflow ID in Xcode Cloud obtained by inspecting the URL https://appstoreconnect.apple.com/teams/{team-id}/apps/{app-id}/ci/workflows/{workflow-id}."
     required: true
-  git_branch_name:
+  gitBranchName:
     description: "Name of the Git branch to trigger the workflow on."
     required: true
 
 outputs:
-  token:
-    description: "Generated token to use App Store Connect API."
+  buildNumber:
+    description: "The build number"
+  buildId:
+    description: "The build ID"
+  gitReferenceId:
+    description: "The git reference ID"
 
 runs:
   using: "node24"

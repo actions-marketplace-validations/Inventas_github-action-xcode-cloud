@@ -9,8 +9,8 @@ const AppStoreConnect = require("./app-store-connect");
  * These are used only if no token was provided directly via params.
  */
 function readEnvCredentials() {
-  const keyId = core.getInput("key_id");
-  const issuerId = core.getInput("issuer_id");
+  const keyId = core.getInput("keyId");
+  const issuerId = core.getInput("issuerId");
   const key = core.getInput("key");
 
   return { keyId, issuerId, key };
@@ -75,7 +75,7 @@ module.exports = async function trigger(params) {
       }
     }
 
-    // 2) Acquire an App Store Connect token build one from env credentials (KEY_ID / ISSUER_ID / KEY).
+    // 2) Acquire an App Store Connect token build one from the input
     const { keyId, issuerId, key } = readEnvCredentials();
 
     // Mask secrets in logs
@@ -89,7 +89,7 @@ module.exports = async function trigger(params) {
     const client = new AppStoreConnect(BASE_URL, ascToken);
 
     core.info("Getting workflow information…");
-    const workflowId = params["xcode_cloud_workflow_id"];
+    const workflowId = params["xcodeCloudWorkflowId"];
     const workflowInfo = await client.getWorkflow(workflowId);
 
     core.info(
@@ -97,7 +97,7 @@ module.exports = async function trigger(params) {
     );
 
     // 4) Resolve git reference for the given branch (with a small retry)
-    const branchName = params["git_branch_name"];
+    const branchName = params["gitBranchName"];
     core.info(`Finding git reference for branch '${branchName}'…`);
 
     const referenceId = await retry(
