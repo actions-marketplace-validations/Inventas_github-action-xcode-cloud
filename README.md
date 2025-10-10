@@ -28,7 +28,7 @@ jobs:
         with:
           keyId: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
           key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
-          issuerId: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          issuerId: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }} # Leave out for Individual App Store Connect API Keys
           xcodeCloudWorkflowId: ${{ secrets.XCODE_CLOUD_WORKFLOW_ID }}
           gitBranchName: main
 
@@ -48,7 +48,7 @@ jobs:
   with:
     keyId: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
     key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
-    issuerId: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+    issuerId: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }} # Leave out for Individual App Store Connect API Keys
     xcodeCloudWorkflowId: ${{ secrets.XCODE_CLOUD_WORKFLOW_ID }}
     gitBranchName: ${{ github.ref_name }}
 ```
@@ -59,7 +59,7 @@ jobs:
 |-------|-------------|----------|---------|
 | `keyId` | App Store Connect API Key ID | ✅ | `ABC1234DEF` |
 | `key` | App Store Connect Private Key (P8) | ✅ | `-----BEGIN PRIVATE KEY-----\n...` |
-| `issuerId` | App Store Connect Issuer ID | ✅ | `12345678-1234-1234-1234-123456789012` |
+| `issuerId` | App Store Connect Issuer ID (Leave out for Individual App Store Connect API Keys) | ✅ | `12345678-1234-1234-1234-123456789012` |
 | `xcodeCloudWorkflowId` | Xcode Cloud Workflow ID | ✅ | `12345678-1234-1234-1234-123456789012` |
 | `gitBranchName` | Git branch name to trigger build on | ✅ | `main`, `develop`, `feature/new-feature` |
 
@@ -90,7 +90,7 @@ You need to create an App Store Connect API key with appropriate permissions:
 
 3. **Download and Store Credentials**
    - **Key ID**: Copy the Key ID (e.g., `ABC1234DEF`)
-   - **Issuer ID**: Copy the Issuer ID (UUID format)
+   - **Issuer ID**: Copy the Issuer ID (UUID format). Leave out for Individual App Store Connect API Keys.
    - **Private Key**: Download the `.p8` file and copy its contents
    - **Important**: Store these securely as GitHub secrets immediately
 

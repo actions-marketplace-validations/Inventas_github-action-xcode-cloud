@@ -10,7 +10,7 @@ const AppStoreConnect = require("./app-store-connect");
  */
 function readEnvCredentials() {
   const keyId = core.getInput("keyId");
-  const issuerId = core.getInput("issuerId");
+  const issuerId = core.getInput("issuerId") ?? "";
   const key = core.getInput("key");
 
   return { keyId, issuerId, key };
@@ -20,11 +20,11 @@ function readEnvCredentials() {
  * Build an App Store Connect API JWT (ES256).
  * Inputs can come from env (typical for composite actions) or be passed directly.
  */
-function generateAscJwt({ keyId, issuerId, privateKey }) {
+function generateJWTTeamKey({ keyId, issuerId, privateKey }) {
   if (!keyId || !issuerId || !privateKey) {
     throw new Error(
       "Missing credentials to generate App Store Connect token. " +
-        'Provide either params["appstore-connect-token"] or env/input keyId, issuerId, key.',
+        "Provide input keyId, issuerId, key.",
     );
   }
 
@@ -36,7 +36,32 @@ function generateAscJwt({ keyId, issuerId, privateKey }) {
     iss: issuerId,
     aud: "appstoreconnect-v1",
     iat: now,
-    exp: now + 10 * 60, // 10 minutes
+    exp: now + 5 * 60, // 5 minutes
+  };
+
+  return jwt.sign(payload, normalizedKey, {
+    algorithm: "ES256",
+    keyid: keyId,
+  });
+}
+
+function generateJWTIndividualKey({ keyId, privateKey }) {
+  if (!keyId || !privateKey) {
+    throw new Error(
+      "Missing credentials to generate App Store Connect token. " +
+        "Provide keyId and key.",
+    );
+  }
+
+  // Normalize PEM with literal "\n" (as often stored in GitHub Secrets)
+  const normalizedKey = privateKey.replace(/\\n/g, "\n");
+
+  const now = Math.floor(Date.now() / 1000);
+  const payload = {
+    sub: "user",
+    iat: now,
+    exp: now + 60 * 5,
+    aud: "appstoreconnect-v1",
   };
 
   return jwt.sign(payload, normalizedKey, {
@@ -75,7 +100,13 @@ module.exports = async function trigger(params) {
     // Mask secrets in logs
     if (key) core.setSecret(key);
 
-    const ascToken = generateAscJwt({ keyId, issuerId, privateKey: key });
+    let ascToken;
+
+    if (issuerId == "") {
+      ascToken = generateJWTIndividualKey({ keyId, privateKey: key });
+    } else {
+      ascToken = generateJWTTeamKey({ keyId, issuerId, privateKey: key });
+    }
 
     core.setSecret(ascToken);
 

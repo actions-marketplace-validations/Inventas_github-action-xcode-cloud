@@ -14,8 +14,8 @@ inputs:
     description: "P8 private key from App Store Connect."
     required: true
   issuerId:
-    description: "Issuer ID from App Store Connect."
-    required: true
+    description: "Issuer ID from App Store Connect. Leave empty if using an Individual App Store Connect key."
+    required: false
   xcodeCloudWorkflowId:
     description: "Workflow ID in Xcode Cloud obtained by inspecting the URL https://appstoreconnect.apple.com/teams/{team-id}/apps/{app-id}/ci/workflows/{workflow-id}."
     required: true
