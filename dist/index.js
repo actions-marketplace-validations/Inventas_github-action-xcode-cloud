@@ -32367,9 +32367,9 @@ module.exports = async function trigger(params) {
     );
 
     // 7) Set outputs for GitHub Actions
-    core.setOutput("build_id", buildId);
-    core.setOutput("build_number", buildNumber);
-    core.setOutput("git_reference_id", referenceId);
+    core.setOutput("buildId", buildId);
+    core.setOutput("buildNumber", buildNumber);
+    core.setOutput("gitReferenceId", referenceId);
 
     return {
       buildId,
